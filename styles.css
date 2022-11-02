@@ -1,7 +1,23 @@
-canvas{
 
-}
 body{
   text-align:center;
 }
 
+
+#first-img{
+  width: 800px;
+  height: 480px;
+}
+
+#next-btn{
+  
+}
+
+#next-btn:hover{
+  background-color: silver;
+}
+
+canvas {
+  display: none;
+  background-color: aqua;
+}
