@@ -5,18 +5,18 @@ const ctx = cvs.getContext("2d"); //グラフィックを描画するための�
 
 // canvasで画像を使うため？
 const bg = new Image();
+const bg2 = new Image();
+const bgGoal = new Image();
 const bird = new Image(); 
 const pipeNorth = new Image(); 
 const pipeSouth = new Image(); 
+
 bg.src = "image/background.png";
+bg2.src = "image/background2.png";
+bgGoal.src = "image/bg_goal.png";
 bird.src = "image/flogGirl.png";
 pipeNorth.src = "image/pipeNorth.png";
 pipeSouth.src = "image/pipeSouth.png";
-
-const bg2 = new Image();
-const bgGoal = new Image();
-bg2.src = "image/background2.png";
-bgGoal.src = "image/bg_goal.png";
 
 
 // かえるサイズ
@@ -36,6 +36,7 @@ let constant;
 // その他
 let score = 0;
 let endFlag = false;
+let clearFlag = false;
 
 const pipe = [];
 pipe[0] = {
@@ -71,14 +72,19 @@ function move(e){
       }
       break ;
   }
-    
 }
 
 const scrollSpeed = 2;
 
 const returnBtn = document.getElementById("return-btn");
 const nextBtn = document.getElementById("next-btn");
+
+const returnBtn2 = document.getElementById("return2-btn");
+const nextBtn2 = document.getElementById("next2-btn");
+
 const firstImg = document.getElementById("first-img");
+const after1Img = document.getElementById("after1-img");
+const after2Img = document.getElementById("after2-img");
 
 returnBtn.addEventListener("click", () => {
   firstImg.style.display = "inline";
@@ -92,6 +98,25 @@ nextBtn.addEventListener("click", () => {
   nextBtn.style.display = "none";
 });
 
+nextBtn2.addEventListener("click", () => {
+  after1Img.style.display = "none";
+  after2Img.style.display = "inline";
+
+  returnBtn2.style.display = "inline";
+  nextBtn2.style.display = "none";
+  clearFlag = true;
+});
+
+returnBtn2.addEventListener("click", () => {
+  after1Img.style.display = "inline";
+  after2Img.style.display = "none";
+
+  returnBtn2.style.display = "none";
+  nextBtn2.style.display = "inline";
+});
+
+
+
 const canvasWidth = 800;
 let bg1X = 0;
 let bg2X = canvasWidth;
@@ -100,8 +125,13 @@ let bgCount = 0;
 
 
 function draw(){
-  ctx.drawImage(bg,bg1X,0);
-  ctx.drawImage(bg2,bg2X,0);
+  ctx.drawImage(bg, bg1X, 0);
+  ctx.drawImage(bg2,bg2X, 0);
+
+  if (score >= 1) {
+    bgGoalX -= scrollSpeed;
+    ctx.drawImage(bgGoal, bgGoalX, 0);
+  }
   ctx.drawImage(bird, bX, bY, 20, 20);
   
 
@@ -110,6 +140,7 @@ function draw(){
     ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
     ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
     pipe[i].x -= scrollSpeed;
+    // pipe[i].y -= scrollSpeed;
 
     if( pipe[i].x == 300 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
       pipe.push({
@@ -117,6 +148,12 @@ function draw(){
           y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
       });
     }
+    // if( pipe[i].x == 300 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
+    //   pipe.push({
+    //       x : cvs.width,
+    //       y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
+    //   });
+    // }
 
     //ゲームオーバーのパターン
     // if( bX + bird.width >= pipe[i].x &&
@@ -146,21 +183,29 @@ function draw(){
   bg2X -= scrollSpeed;
 
   if (bg1X === -canvasWidth) {
-    if (score === 5) {
+    if (score === 1) {
       bgGoalX = canvasWidth;
     } else {
       bg1X = canvasWidth;
-      bgCount++;
     }
   }
+
   if (bg2X === -canvasWidth) {
     bg2X = canvasWidth;
   }
   
-  if (score === 5) {
-    bgGoalX -= scrollSpeed;
-    ctx.drawImage(bgGoal, bgGoalX, 0);
+  if (bgGoalX + 750 < bX && !clearFlag) {
+    firstImg.style.display = "none";
+    firstImg.style.display = "none";
+    after1Img.style.display = "inline";
+
+    cvs.style.display = "none";
+    nextBtn.style.display = "none";
+    returnBtn.style.display = "none";
+
+    nextBtn2.style.display = "inline";
   }
+
 
   ctx.fillStyle = "#000"; //カラー
   ctx.font = "16px"; //大きさ

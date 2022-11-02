@@ -1,23 +1,37 @@
-
 body{
   text-align:center;
 }
-
 
 #first-img{
   width: 800px;
   height: 480px;
 }
 
-#next-btn{
-  
+#after1-img{
+  width: 800px;
+  height: 480px;
+  display: none;
 }
 
-#next-btn:hover{
+#after2-img{
+  width: 800px;
+  height: 480px;
+  display: none;
+}
+
+button:hover{
   background-color: silver;
 }
 
 canvas {
   display: none;
   background-color: aqua;
+}
+
+#return2-btn{
+  display: none;
+}
+
+#next2-btn{
+  display: none;
 }
