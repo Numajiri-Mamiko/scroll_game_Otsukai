@@ -19,12 +19,12 @@ doutor.src = "image/doutor.png";
 flappecino.src = "image/flappecino.png";
 
 // かえるサイズ
-const flagHight = 20;
-const flagWighth = 20;
+const frogHight= 20;
+const frogWighth = 20;
 
 // かえる初期位置
 const earthHight = 42;
-const firstHight = cvs.height - flagHight - earthHight;
+const firstHight = cvs.height - frogHight- earthHight;
 let bX = 30;
 let bY = firstHight;
 
@@ -76,7 +76,7 @@ function move(e){
   }
 }
 
-const scrollSpeed = 2;
+const scrollSpeed = 1;
 
 const returnBtn = document.getElementById("return-btn");
 const nextBtn = document.getElementById("next-btn");
@@ -124,18 +124,30 @@ let bg2X = canvasWidth;
 let bgGoalX = 0;
 let bgCount = 0;
 
-const crearPoint = 20;
+const sideLength = 50;
+const crearPoint = 10;
+let cX;
+let cY;
+
+const stabaFirstArr = [];
+
+const doutorInterval = 200;
 
 function draw(){
+  //カエル中座標の更新
+  cX = bX + frogHight/2;
+  cY = bY + frogWighth/2;
+
+  // 描画
   ctx.drawImage(bg, bg1X, 0);
   ctx.drawImage(bg2,bg2X, 0);
-
   if (score >= crearPoint) {
     bgGoalX -= scrollSpeed;
     ctx.drawImage(bgGoal, bgGoalX, 0);
   }
   ctx.drawImage(bird, bX, bY, 20, 20);
 
+  // フラペチーノ
   for(let i = 0 ; i < staba.length; i++){
     ctx.drawImage(flappecino, staba[i].x, staba[i].y);
     staba[i].x -= scrollSpeed;
@@ -147,10 +159,21 @@ function draw(){
       });
     }
 
-    if(pipe[i].x === bX){
+    // あたり判定
+    if (staba[i].x <= cX && cX <= staba[i].x + sideLength && staba[i].y <= cY && cY <= staba[i].y + sideLength) {
+      stabaFirstArr[i] = true;
+    }
+  }
+
+  // スコア計算
+  score = 0;
+  for (const flag of stabaFirstArr) {
+    if (flag) {
       score++;
     }
   }
+
+  // ドトール
   for(let i = 0 ; i < pipe.length; i++){
     ctx.drawImage(doutor, pipe[i].x, pipe[i].y);
     pipe[i].x -= scrollSpeed;
@@ -165,11 +188,19 @@ function draw(){
       pipe[i].y -= scrollSpeed / 5;
     }
 
-    if(pipe[i].x === canvasWidth - 50){ 
+    if(pipe[i].x === canvasWidth - doutorInterval){ 
       pipe.push({
         x : cvs.width,
         y : Math.floor(Math.random()*canvasHight)
       });
+    }
+
+    // あたり判定
+    if (pipe[i].x <= cX && cX <= pipe[i].x + sideLength && pipe[i].y <= cY && cY <= pipe[i].y + sideLength) {
+        if (alert("うわっ、当たっちゃった") === undefined) {
+          endFlag = true;
+          break;
+        }
     }
 
     //ゲームオーバーのパターン
@@ -192,9 +223,11 @@ function draw(){
     bY += 1;
   }
 
+  // 背景移動
   bg1X -= scrollSpeed;
   bg2X -= scrollSpeed;
 
+  // 背景繰り返し
   if (bg1X === -canvasWidth) {
     if (score === crearPoint) {
       bgGoalX = canvasWidth;
@@ -202,11 +235,11 @@ function draw(){
       bg1X = canvasWidth;
     }
   }
-
   if (bg2X === -canvasWidth) {
     bg2X = canvasWidth;
   }
   
+  // ゴール
   if (bgGoalX + 750 < bX && !clearFlag) {
     firstImg.style.display = "none";
     firstImg.style.display = "none";
@@ -218,7 +251,6 @@ function draw(){
 
     nextBtn2.style.display = "inline";
   }
-
 
   ctx.fillStyle = "#000"; //カラー
   ctx.font = "16px"; //大きさ
