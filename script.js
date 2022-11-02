@@ -9,11 +9,13 @@ const bird = new Image();
 const fg = new Image(); 
 const pipeNorth = new Image(); 
 const pipeSouth = new Image(); 
-bg.src = "bg.png";
-bird.src = "bird.png";
-fg.src = "fg.png";
-pipeNorth.src = "pipeNorth.png";
-pipeSouth.src = "pipeSouth.png";
+bg.src = "image/bg.png";
+bird.src = "image/flogGirl.png";
+// bird.width = "2px";
+// bird.height = "20px";
+fg.src = "image/fg.png";
+pipeNorth.src = "image/pipeNorth.png";
+pipeSouth.src = "image/pipeSouth.png";
 
 // 鳥の座標
 let bX = 30;
@@ -54,7 +56,7 @@ function move(e){
 
 function draw(){
   ctx.drawImage(bg,0,0);
-  ctx.drawImage(bird, bX, bY);
+  ctx.drawImage(bird, bX, bY, 20, 20);
 
   ctx.drawImage(fg,0,cvs.height - fg.height);
   
@@ -83,10 +85,10 @@ function draw(){
       bY + bird.height >=  cvs.height - fg.height){
 
         // alert("うわっ、当たっちゃった")
-        if (alert("うわっ、当たっちゃった") === undefined) {
-          endFlag = true;
-          break;
-        }
+        // if (alert("うわっ、当たっちゃった") === undefined) {
+        //   endFlag = true;
+        //   break;
+        // }
     }
 
     if(pipe[i].x === bX){
@@ -95,9 +97,9 @@ function draw(){
   }
   bY += 1;
 
-  if (pipe.length === 5) {
-    alert("５個クリア") 
-  }
+  // if (pipe.length === 5) {
+  //   alert("５個クリア") 
+  // }
 
 
   ctx.fillStyle = "#000"; //カラー
