@@ -18,8 +18,10 @@ pipeNorth.src = "image/pipeNorth.png";
 pipeSouth.src = "image/pipeSouth.png";
 
 // 鳥の座標
+const flagHight = 20;
+const flagWighth = 20;
 let bX = 30;
-let bY = 20;
+let bY = cvs.height - fg.height - flagHight;
 
 const gap = 100;  
 let constant;
@@ -53,6 +55,7 @@ function move(e){
   }
     
 }
+
 
 function draw(){
   ctx.drawImage(bg,0,0);
@@ -95,7 +98,9 @@ function draw(){
       score++;
     }
   }
-  bY += 1;
+  if (bY < cvs.height - fg.height - flagHight) {
+    bY += 1;
+  }
 
   // if (pipe.length === 5) {
   //   alert("５個クリア") 
