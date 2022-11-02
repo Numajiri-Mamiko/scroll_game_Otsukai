@@ -19,15 +19,14 @@ doutor.src = "image/doutor.png";
 flappecino.src = "image/flappecino.png";
 
 // かえるサイズ
-const frogHight= 20;
-const frogWighth = 20;
+const frogHight= 30;
+const frogWighth = 30;
 
 // かえる初期位置
 const earthHight = 42;
 const firstHight = cvs.height - frogHight- earthHight;
 let bX = 30;
 let bY = firstHight;
-
 
 // その他
 let score = 0;
@@ -83,16 +82,19 @@ const nextBtn = document.getElementById("next-btn");
 
 const returnBtn2 = document.getElementById("return2-btn");
 const nextBtn2 = document.getElementById("next2-btn");
+const nextBtn3 = document.getElementById("next3-btn");
 
 const firstImg = document.getElementById("first-img");
 const after1Img = document.getElementById("after1-img");
 const after2Img = document.getElementById("after2-img");
+const overImg = document.getElementById("over-img");
+const crearImg = document.getElementById("crear-img");
 
-returnBtn.addEventListener("click", () => {
-  firstImg.style.display = "inline";
-  cvs.style.display = "none";
-  nextBtn.style.display = "inline";
-});
+// returnBtn.addEventListener("click", () => {
+//   firstImg.style.display = "inline";
+//   cvs.style.display = "none";
+//   nextBtn.style.display = "inline";
+// });
 
 nextBtn.addEventListener("click", () => {
   firstImg.style.display = "none";
@@ -106,6 +108,7 @@ nextBtn2.addEventListener("click", () => {
 
   returnBtn2.style.display = "inline";
   nextBtn2.style.display = "none";
+  nextBtn3.style.display = "inline";
   clearFlag = true;
 });
 
@@ -117,21 +120,25 @@ returnBtn2.addEventListener("click", () => {
   nextBtn2.style.display = "inline";
 });
 
+nextBtn3.addEventListener("click", () => {
+  crearImg.style.display = "inline";
+});
+
 const canvasWidth = 800;
 const canvasHight = 480;
 let bg1X = 0;
 let bg2X = canvasWidth;
-let bgGoalX = 0;
+let bgGoalX;
 let bgCount = 0;
 
 const sideLength = 50;
-const crearPoint = 10;
+const crearPoint = 3;
 let cX;
 let cY;
 
+let goalShowFlag = false;
 const stabaFirstArr = [];
-
-const doutorInterval = 200;
+let doutorInterval = 150;
 
 function draw(){
   //カエル中座標の更新
@@ -141,15 +148,17 @@ function draw(){
   // 描画
   ctx.drawImage(bg, bg1X, 0);
   ctx.drawImage(bg2,bg2X, 0);
-  if (score >= crearPoint) {
-    bgGoalX -= scrollSpeed;
+  if (bgGoalX !== undefined) {
     ctx.drawImage(bgGoal, bgGoalX, 0);
+    bgGoalX -= scrollSpeed;
   }
-  ctx.drawImage(bird, bX, bY, 20, 20);
+  ctx.drawImage(bird, bX, bY, frogWighth, frogHight);
 
   // フラペチーノ
   for(let i = 0 ; i < staba.length; i++){
-    ctx.drawImage(flappecino, staba[i].x, staba[i].y);
+    if (!stabaFirstArr[i]){
+      ctx.drawImage(flappecino, staba[i].x, staba[i].y);
+    }
     staba[i].x -= scrollSpeed;
 
     if(staba[i].x === canvasWidth - 200){ 
@@ -159,10 +168,10 @@ function draw(){
       });
     }
 
-    // あたり判定
+    // スタバあたり判定
     if (staba[i].x <= cX && cX <= staba[i].x + sideLength && staba[i].y <= cY && cY <= staba[i].y + sideLength) {
       stabaFirstArr[i] = true;
-    }
+    } 
   }
 
   // スコア計算
@@ -188,6 +197,8 @@ function draw(){
       pipe[i].y -= scrollSpeed / 5;
     }
 
+    console.log(canvasWidth - doutorInterval);
+    
     if(pipe[i].x === canvasWidth - doutorInterval){ 
       pipe.push({
         x : cvs.width,
@@ -195,27 +206,18 @@ function draw(){
       });
     }
 
-    // あたり判定
+
+    // ドトールあたり判定
     if (pipe[i].x <= cX && cX <= pipe[i].x + sideLength && pipe[i].y <= cY && cY <= pipe[i].y + sideLength) {
-        if (alert("うわっ、当たっちゃった") === undefined) {
-          endFlag = true;
-          break;
-        }
+      overImg.style.display = "inline";
+      cvs.style.display = "none";
+      endFlag = true;
+      break;
+      // if (alert("うわっ、当たっちゃった") === undefined) {
+      //   endFlag = true;
+      //   break;
+      // }
     }
-
-    //ゲームオーバーのパターン
-    // if( bX + bird.width >= pipe[i].x &&
-    //   bX <= pipe[i].x + pipeNorth.width &&
-    //   (bY <= pipe[i].y + pipeNorth.height ||
-    //   bY+bird.height >= pipe[i].y+constant) ||
-    //   bY + bird.height >=  cvs.height - fg.height){
-
-        // alert("うわっ、当たっちゃった")
-        // if (alert("うわっ、当たっちゃった") === undefined) {
-        //   endFlag = true;
-        //   break;
-        // }
-    // }
   }
 
   // 重力
@@ -229,7 +231,7 @@ function draw(){
 
   // 背景繰り返し
   if (bg1X === -canvasWidth) {
-    if (score === crearPoint) {
+    if (goalShowFlag) {
       bgGoalX = canvasWidth;
     } else {
       bg1X = canvasWidth;
@@ -238,26 +240,41 @@ function draw(){
   if (bg2X === -canvasWidth) {
     bg2X = canvasWidth;
   }
-  
+
+  // if (score > 0) {
+  //     doutorInterval = 50;
+  // }
+
+  // if (score >= 9) {
+  //   doutorInterval = 30;
+  // } else if (score >= 6) {
+  //   doutorInterval = 50;
+  // } else if (score >= 3) {
+  //   doutorInterval = 100;
+  // }
+
   // ゴール
   if (bgGoalX + 750 < bX && !clearFlag) {
-    firstImg.style.display = "none";
-    firstImg.style.display = "none";
     after1Img.style.display = "inline";
-
     cvs.style.display = "none";
-    nextBtn.style.display = "none";
-    returnBtn.style.display = "none";
-
     nextBtn2.style.display = "inline";
   }
 
-  ctx.fillStyle = "#000"; //カラー
-  ctx.font = "16px"; //大きさ
-  ctx.fillText("点数 : " + score + ' point', 10, cvs.height - 20); //表示内容、位置
+  // ポイント見せる
+  if(score >= crearPoint) {
+    goalShowFlag = true;
+    ctx.fillStyle = "red"; //カラー
+    ctx.font = "32px"; //大きさ
+    ctx.fillText("点数 : " + score + ' point あと少しでスタバが見えてくるよ', 10, cvs.height - 20);
+  } else {
+    ctx.fillStyle = "#000"; //カラー
+    ctx.font = "16px"; //大きさ
+    ctx.fillText("点数 : " + score + ' point', 10, cvs.height - 20);
+  }
+
         
   if(endFlag) {
-    window.location.reload();
+    // window.location.reload();
   } else {
     requestAnimationFrame(draw);
   }

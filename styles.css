@@ -2,30 +2,33 @@ body{
   text-align:center;
 }
 
-#first-img{
+canvas {
+  display: none;
+}
+
+img{
   width: 800px;
   height: 480px;
 }
 
 #after1-img{
-  width: 800px;
-  height: 480px;
   display: none;
 }
 
 #after2-img{
-  width: 800px;
-  height: 480px;
+  display: none;
+}
+
+#over-img{
+  display: none;
+}
+
+#crear-img{
   display: none;
 }
 
 button:hover{
   background-color: silver;
-}
-
-canvas {
-  display: none;
-  background-color: aqua;
 }
 
 #return2-btn{
@@ -34,4 +37,38 @@ canvas {
 
 #next2-btn{
   display: none;
+}
+
+#next3-btn{
+  display: none;
+}
+
+.button_First a {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 200px;
+  padding: 10px 25px;
+  color: #313131;
+  transition: 0.3s ease-in-out;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.button_First a:after {
+  background: linear-gradient(to right, #e55d87, #5fc3e4);
+  width: 0px;
+  height: 23px;
+  position: absolute;
+  content: "";
+  display: block;
+  transition: all 200ms ease-in-out;
+  bottom: 0px;
+  z-index: -1;
+}
+
+.button_First a:hover:after {
+  width: 100%;
 }
