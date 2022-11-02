@@ -7,17 +7,16 @@ const ctx = cvs.getContext("2d"); //グラフィックを描画するための�
 const bg = new Image();
 const bg2 = new Image();
 const bgGoal = new Image();
-const bird = new Image(); 
-const pipeNorth = new Image(); 
-const pipeSouth = new Image(); 
+const bird = new Image();  
+const doutor = new Image();
+const flappecino = new Image();
 
 bg.src = "image/background.png";
 bg2.src = "image/background2.png";
 bgGoal.src = "image/bg_goal.png";
 bird.src = "image/flogGirl.png";
-pipeNorth.src = "image/pipeNorth.png";
-pipeSouth.src = "image/pipeSouth.png";
-
+doutor.src = "image/doutor.png";
+flappecino.src = "image/flappecino.png";
 
 // かえるサイズ
 const flagHight = 20;
@@ -29,9 +28,6 @@ const firstHight = cvs.height - flagHight - earthHight;
 let bX = 30;
 let bY = firstHight;
 
-// 通りぬけ
-const gap = 100;  
-let constant;
 
 // その他
 let score = 0;
@@ -42,6 +38,12 @@ const pipe = [];
 pipe[0] = {
     x : cvs.width, //canvas幅
     y : 0
+};
+
+const staba = [];
+staba[0] = {
+    x : cvs.width, //canvas幅
+    y : firstHight
 };
 
 // キーボード操作
@@ -115,45 +117,60 @@ returnBtn2.addEventListener("click", () => {
   nextBtn2.style.display = "inline";
 });
 
-
-
 const canvasWidth = 800;
+const canvasHight = 480;
 let bg1X = 0;
 let bg2X = canvasWidth;
 let bgGoalX = 0;
 let bgCount = 0;
 
+const crearPoint = 20;
 
 function draw(){
   ctx.drawImage(bg, bg1X, 0);
   ctx.drawImage(bg2,bg2X, 0);
 
-  if (score >= 1) {
+  if (score >= crearPoint) {
     bgGoalX -= scrollSpeed;
     ctx.drawImage(bgGoal, bgGoalX, 0);
   }
   ctx.drawImage(bird, bX, bY, 20, 20);
-  
 
-  for(let i = 0 ; i < pipe.length; i++){
-    constant = pipeNorth.height + gap;
-    ctx.drawImage(pipeNorth, pipe[i].x, pipe[i].y);
-    ctx.drawImage(pipeSouth, pipe[i].x, pipe[i].y + constant);
-    pipe[i].x -= scrollSpeed;
-    // pipe[i].y -= scrollSpeed;
+  for(let i = 0 ; i < staba.length; i++){
+    ctx.drawImage(flappecino, staba[i].x, staba[i].y);
+    staba[i].x -= scrollSpeed;
 
-    if( pipe[i].x == 300 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
-      pipe.push({
+    if(staba[i].x === canvasWidth - 200){ 
+      staba.push({
           x : cvs.width,
-          y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
+          y : Math.floor(Math.random()*canvasHight)
       });
     }
-    // if( pipe[i].x == 300 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
-    //   pipe.push({
-    //       x : cvs.width,
-    //       y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
-    //   });
-    // }
+
+    if(pipe[i].x === bX){
+      score++;
+    }
+  }
+  for(let i = 0 ; i < pipe.length; i++){
+    ctx.drawImage(doutor, pipe[i].x, pipe[i].y);
+    pipe[i].x -= scrollSpeed;
+
+    if (i % 5 === 0) {
+      pipe[i].y -= scrollSpeed / 10;
+    } else if (i % 5 === 1) {
+      pipe[i].y += scrollSpeed / 10;
+    } else if (i % 5 === 2) {
+      pipe[i].y -= scrollSpeed / 5;
+    } else if (i % 5 === 3) {
+      pipe[i].y -= scrollSpeed / 5;
+    }
+
+    if(pipe[i].x === canvasWidth - 50){ 
+      pipe.push({
+        x : cvs.width,
+        y : Math.floor(Math.random()*canvasHight)
+      });
+    }
 
     //ゲームオーバーのパターン
     // if( bX + bird.width >= pipe[i].x &&
@@ -168,10 +185,6 @@ function draw(){
         //   break;
         // }
     // }
-
-    if(pipe[i].x === bX){
-      score++;
-    }
   }
 
   // 重力
@@ -183,7 +196,7 @@ function draw(){
   bg2X -= scrollSpeed;
 
   if (bg1X === -canvasWidth) {
-    if (score === 1) {
+    if (score === crearPoint) {
       bgGoalX = canvasWidth;
     } else {
       bg1X = canvasWidth;
