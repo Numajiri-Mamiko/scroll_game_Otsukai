@@ -196,8 +196,6 @@ function draw(){
     } else if (i % 5 === 3) {
       pipe[i].y -= scrollSpeed / 5;
     }
-
-    console.log(canvasWidth - doutorInterval);
     
     if(pipe[i].x === canvasWidth - doutorInterval){ 
       pipe.push({
