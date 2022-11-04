@@ -29,7 +29,7 @@ let bX = 30;
 let bY = firstHight;
 
 // その他
-let score = 0;
+let score = 5;
 let endFlag = false;
 let clearFlag = false;
 
@@ -269,7 +269,7 @@ const draw = () => {
 
 
 // module.export = { draw };
-  export { frogHight };
+  // export { frogHight };
 // module.export = frogHight;
 
 

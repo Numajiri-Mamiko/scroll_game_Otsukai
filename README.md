@@ -1,5 +1,4 @@
-## プロダクト名
-カエルちゃんのおつかい横スクロールゲーム
+## カエルちゃんのおつかい横スクロールゲーム
 ![image](https://github.com/Numajiri-Mamiko/scroll_game_Otsukai/blob/main/image/firstImage.png)
 
 ## 概要
