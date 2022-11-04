@@ -1,29 +1,26 @@
 'use strict'
+import { frogHight } from "../script.js";
+// const frogHight = import("script");
 
-/**
- * use test library is mocha and chai
- */
+// const { draw } = import("script");
+// const { frogHight } = require("../script.js");
 
-//how to programing test
-/*
-describe("Fizz Buzz", () => {
-it("should return the original number in appropriate circumstances", () => {
-    expect(fizzbuzz(1)).to.equal("1");
-    expect(fizzbuzz(2)).to.equal("2");
-    expect(fizzbuzz(4)).to.equal("4");
-    expect(fizzbuzz(7)).to.equal("7");
+const { expect } = require("chai");
+
+describe("おつかいゲームのテスト", () => {
+    it("開始時のかえる位置はOKか？", () => {
+
+        // const frogHight= 30;
+        // const frogWighth = 30;
+        // const earthHight = 42;
+        // const canvasHight = 480;
+        // const firstHight = canvasHight - frogHight- earthHight;
+
+        // expect(bX).to.equal(30);
+        // expect(bY).to.equal(firstHight);
+        // expect(true).to.equal(true);
+        // console.log(typeof draw);
+        // expect(draw).to.equal(undefined);
+        expect(frogHight).to.equal(30);
+    });
 });
-
-it("should return Fizz for multiple of 3", () => {
-    expect(fizzbuzz(3)).to.equal("Fizz");
-    expect(fizzbuzz(6)).to.equal("Fizz");
-});
-
-it("should return Buzz for multiple of 5", () => {
-    expect(fizzbuzz(5)).to.equal("Buzz");
-});
-});
- */
-
-//some test
-

@@ -50,7 +50,7 @@ const canvasHight = 480;
 let bg1X = 0;
 let bg2X = canvasWidth;
 let bgGoalX;
-let bgCount = 0;
+// let bgCount = 0;
 let cX;
 let cY;
 const stabaFirstArr = [];
@@ -62,15 +62,14 @@ const crearPoint = 0;
 let doutorInterval = 150;
 const scrollSpeed = 1;
 
-
-
-// キーボード操作
-document.addEventListener("keydown",move);
-
 const leftSpeed = 25;
 const upSpeed = 25;
 const rightSpeed = 25;
 const downSpeed = 25;
+
+
+// キーボード操作
+document.addEventListener("keydown",move);
 function move(e){
   switch(e.keyCode) {
     case 37 : //左
@@ -99,6 +98,8 @@ function move(e){
 const nextBtn = document.getElementById("next-btn");
 const nextBtn2 = document.getElementById("next2-btn");
 const nextBtn3 = document.getElementById("next3-btn");
+const retryBtn = document.getElementById("retry-btn");
+
 const firstImg = document.getElementById("first-img");
 const after1Img = document.getElementById("after1-img");
 const after2Img = document.getElementById("after2-img");
@@ -123,13 +124,18 @@ nextBtn2.addEventListener("click", () => {
 nextBtn3.addEventListener("click", () => {
   crearImg.style.display = "inline";
   after2Img.style.display = "none";
+  retryBtn.style.display = "inline";
+  nextBtn3.style.display = "none";
+});
+
+retryBtn.addEventListener("click", () => {
+  window.location.reload();
 });
 
 
-
 // 描画関数
-function draw(){
-  //カエル中座標の更新
+const draw = () => {
+  //カエル中心座標の更新
   cX = bX + frogHight/2;
   cY = bY + frogWighth/2;
 
@@ -192,10 +198,11 @@ function draw(){
       });
     }
 
-    // ドトールあたり判定
+    // ゲームオーバー
     if (pipe[i].x <= cX && cX <= pipe[i].x + sideLength && pipe[i].y <= cY && cY <= pipe[i].y + sideLength) {
       overImg.style.display = "inline";
       cvs.style.display = "none";
+      retryBtn.style.display = "inline";
       endFlag = true;
       break;
     }
@@ -253,15 +260,17 @@ function draw(){
     ctx.font = "16px"; //大きさ
     ctx.fillText("点数 : " + score + ' point', 10, cvs.height - 20);
   }
-
-        
+  
+  // 繰り返し
   if(!endFlag) {
     requestAnimationFrame(draw);
   }
 }
 
 
-
+// module.export = { draw };
+  export { frogHight };
+// module.export = frogHight;
 
 
 

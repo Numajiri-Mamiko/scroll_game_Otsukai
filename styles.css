@@ -54,37 +54,42 @@ button:hover{
   font-weight: 600;
   background: #eee;
 }
-.button_First a:hover {
+  a:hover {
   background: #ebfcfe;
   color: #6bb6ff;
 }
+
 .button_First a:before, .button_First a:after {
-box-sizing: inherit;
-content: "";
-position: absolute;
-border: 2px solid transparent;
-width: 0;
-height: 0;
+  box-sizing: inherit;
+  content: "";
+  position: absolute;
+  border: 2px solid transparent;
+  width: 0;
+  height: 0;
 }
-.button_First a:before {
-top: 0;
-left: 0;
+  a:before {
+  top: 0;
+  left: 0;
 }
-.button_First a:after {
-bottom: 0;
-right: 0;
+  a:after {
+  bottom: 0;
+  right: 0;
 }
-.button_First a:hover:before, .button_First a:hover:after {
-width: 100%;
-height: 100%;
+  a:hover:before, a:hover:after {
+  width: 100%;
+  height: 100%;
 }
-.button_First a:hover:before {
-border-top-color: #6bb6ff;
-border-right-color: #6bb6ff;
-transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+  a:hover:before {
+  border-top-color: #6bb6ff;
+  border-right-color: #6bb6ff;
+  transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
 }
-.button_First a:hover:after {
-border-bottom-color: #6bb6ff;
-border-left-color: #6bb6ff;
-transition: border-color 0s ease-out 0.2s, width 0.15s ease-out 0.2s, height 0.15s ease-out 0.3s;
+  a:hover:after {
+  border-bottom-color: #6bb6ff;
+  border-left-color: #6bb6ff;
+  transition: border-color 0s ease-out 0.2s, width 0.15s ease-out 0.2s, height 0.15s ease-out 0.3s;
+}
+
+#retry-btn{
+  display: none;
 }
