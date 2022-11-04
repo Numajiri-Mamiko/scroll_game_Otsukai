@@ -29,7 +29,7 @@ let bX = 30;
 let bY = firstHight;
 
 // その他
-let score = 5;
+let score = 0;
 let endFlag = false;
 let clearFlag = false;
 
@@ -58,7 +58,7 @@ const sideLength = 50;
 let goalShowFlag = false;
 
 // 設定
-const crearPoint = 0;
+const crearPoint = 5;
 let doutorInterval = 150;
 const scrollSpeed = 1;
 
