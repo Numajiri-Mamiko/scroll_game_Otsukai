@@ -169,7 +169,7 @@ const draw = () => {
   }
 
   // スコア計算
-  score = 0;
+  score = 5;
   for (const flag of stabaFirstArr) {
     if (flag) {
       score++;
