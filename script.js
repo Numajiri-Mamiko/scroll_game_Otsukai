@@ -45,6 +45,25 @@ staba[0] = {
     y : firstHight
 };
 
+const canvasWidth = 800;
+const canvasHight = 480;
+let bg1X = 0;
+let bg2X = canvasWidth;
+let bgGoalX;
+let bgCount = 0;
+let cX;
+let cY;
+const stabaFirstArr = [];
+const sideLength = 50;
+let goalShowFlag = false;
+
+// 設定
+const crearPoint = 0;
+let doutorInterval = 150;
+const scrollSpeed = 1;
+
+
+
 // キーボード操作
 document.addEventListener("keydown",move);
 
@@ -75,71 +94,40 @@ function move(e){
   }
 }
 
-const scrollSpeed = 1;
 
-const returnBtn = document.getElementById("return-btn");
+// ボタン設定
 const nextBtn = document.getElementById("next-btn");
-
-const returnBtn2 = document.getElementById("return2-btn");
 const nextBtn2 = document.getElementById("next2-btn");
 const nextBtn3 = document.getElementById("next3-btn");
-
 const firstImg = document.getElementById("first-img");
 const after1Img = document.getElementById("after1-img");
 const after2Img = document.getElementById("after2-img");
 const overImg = document.getElementById("over-img");
 const crearImg = document.getElementById("crear-img");
 
-// returnBtn.addEventListener("click", () => {
-//   firstImg.style.display = "inline";
-//   cvs.style.display = "none";
-//   nextBtn.style.display = "inline";
-// });
-
 nextBtn.addEventListener("click", () => {
   firstImg.style.display = "none";
   cvs.style.display = "inline";
   nextBtn.style.display = "none";
+  draw();
 });
 
 nextBtn2.addEventListener("click", () => {
   after1Img.style.display = "none";
   after2Img.style.display = "inline";
-
-  returnBtn2.style.display = "inline";
   nextBtn2.style.display = "none";
   nextBtn3.style.display = "inline";
   clearFlag = true;
 });
 
-returnBtn2.addEventListener("click", () => {
-  after1Img.style.display = "inline";
-  after2Img.style.display = "none";
-
-  returnBtn2.style.display = "none";
-  nextBtn2.style.display = "inline";
-});
-
 nextBtn3.addEventListener("click", () => {
   crearImg.style.display = "inline";
+  after2Img.style.display = "none";
 });
 
-const canvasWidth = 800;
-const canvasHight = 480;
-let bg1X = 0;
-let bg2X = canvasWidth;
-let bgGoalX;
-let bgCount = 0;
 
-const sideLength = 50;
-const crearPoint = 3;
-let cX;
-let cY;
 
-let goalShowFlag = false;
-const stabaFirstArr = [];
-let doutorInterval = 150;
-
+// 描画関数
 function draw(){
   //カエル中座標の更新
   cX = bX + frogHight/2;
@@ -204,17 +192,12 @@ function draw(){
       });
     }
 
-
     // ドトールあたり判定
     if (pipe[i].x <= cX && cX <= pipe[i].x + sideLength && pipe[i].y <= cY && cY <= pipe[i].y + sideLength) {
       overImg.style.display = "inline";
       cvs.style.display = "none";
       endFlag = true;
       break;
-      // if (alert("うわっ、当たっちゃった") === undefined) {
-      //   endFlag = true;
-      //   break;
-      // }
     }
   }
 
@@ -256,6 +239,7 @@ function draw(){
     after1Img.style.display = "inline";
     cvs.style.display = "none";
     nextBtn2.style.display = "inline";
+    endFlag = true;
   }
 
   // ポイント見せる
@@ -271,14 +255,13 @@ function draw(){
   }
 
         
-  if(endFlag) {
-    // window.location.reload();
-  } else {
+  if(!endFlag) {
     requestAnimationFrame(draw);
   }
 }
 
-draw();
+
+
 
 
 
